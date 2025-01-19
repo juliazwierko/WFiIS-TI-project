@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona użytkownika - Sortowanie</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #F4F4F4;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    h1,
+    h3 {
+      text-align: center;
+      color: #5A4F6D;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      /* Spacing between elements */
+    }
+
+    .canvas-container {
+      text-align: center;
+      padding: 15px;
+      background-color: #D8BFD8;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    canvas {
+      border: 2px solid #C0C0C0;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 12px 20px;
+      margin: 5px;
+      font-size: 14px;
+      background-color: #5A4F6D;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #3E3B49;
+    }
+
+    select {
+      padding: 5px;
+      margin: 5px;
+      font-size: 14px;
+    }
+
+    #userInfo {
+      text-align: center;
+      margin-bottom: 20px;
+      background-color: #E0E0E0;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #userInfo p {
+      margin: 5px 0;
+      font-size: 16px;
+    }
+
+    #usernameDisplay,
+    #tokenDisplay {
+      font-weight: bold;
+    }
+
+    .timer {
+      text-align: center;
+      margin-top: 20px;
+      background-color: #C0C0C0;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      text-align: center;
+    }
+
+    ul li {
+      padding: 10px;
+      background: white;
+      margin: 5px 0;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .canvas-container {
+        width: 100%;
+        max-width: 350px;
+      }
+    }
+  </style>
+  <body>
+    <h1>Witaj na stronie użytkownika!</h1>
+    <div id="userInfo">
+      <p>Użytkownik: <span id="usernameDisplay">Nieznany użytkownik</span>
+      </p>
+      <p>Token: <span id="tokenDisplay">Brak tokena</span>
+      </p>
+    </div>
+    <button onclick="logout()">Wyloguj</button>
+    <div>
+      <h3>Historia użytkownika</h3>
+      <ul id="historyList"></ul>
+    </div>
+    <div>
+      <h2>Nie zapomnij przed sortowaniem włączyć dzwięk ;)</h2>
+    </div>
+    <div class="container">
+      <div class="canvas-container">
+        <canvas id="sortCanvas" width="250" height="400"></canvas>
+        <p>Sortowanie</p>
+      </div>
+    </div>
+    <div style="text-align: center;">
+      <label for="algorithm">Wybierz algorytm: </label>
+      <select id="algorithm">
+        <option value="bubble">Bubble Sort</option>
+        <option value="selection">Selection Sort</option>
+        <option value="quick">Quick Sort</option>
+      </select>
+      <label for="arraySize">Wybierz rozmiar tablicy: </label>
+      <select id="arraySize" onchange="updateCanvas()">
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+      </select>
+      <button id="startButton" onclick="startComparison()">Zacznij Sortowanie</button>
+      <button onclick="resetArrays()">Resetuj Tablice</button>
+      <button onclick="stopSorting()">Zatrzymaj Algorytm</button>
+    </div>
+    <div class="timer">
+      <p>Czas Bubble Sort: <span id="bubbleTime">-</span> ms </p>
+      <p>Czas Selection Sort: <span id="selectionTime">-</span> ms </p>
+      <p>Czas Quick Sort: <span id="quickTime">-</span> ms </p>
+    </div>
+    <script>
+      // On page load, check if user is logged in
+      window.onload = function() {
+        const username = localStorage.getItem('username');
+        const authToken = localStorage.getItem('authToken');
+        if (username && authToken) {
+          // Update the user info on the page
+          document.getElementById('usernameDisplay').textContent = username;
+          document.getElementById('tokenDisplay').textContent = authToken;
+          loadHistory(username);
+        }
+      };
+      let audioCtx = null;
+
+      function playNote(freq) {
+        if (audioCtx == null) {
+          audioCtx = new(AudioContext || webkitAudioContext || window.webkitAudioContext)();
+        }
+        const dur = 0.1;
+        const osc = audioCtx.createOscillator();
+        osc.frequency.value = freq;
+        osc.start();
+        osc.stop(audioCtx.currentTime + dur);
+        osc.connect(audioCtx.destination);
+      }
+      const sortCanvas = document.getElementById('sortCanvas').getContext('2d');
+      const canvasWidth = 250,
+        canvasHeight = 400;
+      let arraySize = 20; // Domyślny rozmiar
+      const maxValue = canvasHeight;
+      let originalArray = [];
+      let sortArray = [];
+      let isSorting = false; // Zmienna śledząca status sortowania
+      // Generowanie losowej tablicy
+      function generateRandomArray() {
+        originalArray = Array.from({
+          length: arraySize
+        }, () => Math.floor(Math.random() * maxValue));
+        sortArray = [...originalArray];
+        drawArray(sortCanvas, sortArray);
+      }
+      // Rysowanie tablicy jako pionowych słupków
+      function drawArray(ctx, array, highlightIndex1 = -1, highlightIndex2 = -1, sorted = -1) {
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        const barWidth = canvasWidth / arraySize;
+        array.forEach((value, index) => {
+          if (index === highlightIndex1 || index === highlightIndex2) {
+            ctx.fillStyle = 'red';
+          } else if (index < sorted) {
+            ctx.fillStyle = 'green';
+          } else {
+            ctx.fillStyle = 'black';
+          }
+          ctx.fillRect(index * barWidth, canvasHeight - value, barWidth - 2, value);
+        });
+        if (sorted === array.length) {
+          array.forEach((value, index) => {
+            ctx.fillStyle = 'green';
+            ctx.fillRect(index * barWidth, canvasHeight - value, barWidth - 2, value);
+          });
+        }
+      }
+      // Funkcja opóźnienia
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+      // Implementacja Bubble Sort
+      async function bubbleSort(array, ctx, timerId) {
+        const startTime = performance.now();
+        let sorted = -1;
+        for (let i = 0; i < array.length - 1 && isSorting; i++) {
+          for (let j = 0; j < array.length - 1 - i && isSorting; j++) {
+            drawArray(ctx, array, j, j + 1, sorted);
+            playNote(300 + (array[j] - array[j + 1])); // Sound on comparison
+            await sleep(10);
+            if (array[j] > array[j + 1]) {
+              [array[j], array[j + 1]] = [array[j + 1], array[j]];
+              playNote(500); // Sound on swap
+            }
+          }
+          sorted = array.length - i - 1;
+          drawArray(ctx, array, -1, -1, sorted);
+          await sleep(10);
+        }
+        if (isSorting) {
+          const endTime = performance.now();
+          document.getElementById(timerId).textContent = (endTime - startTime).toFixed(2);
+          drawArray(ctx, array, -1, -1, array.length);
+          return (endTime - startTime).toFixed(2);
+        }
+      }
+      // Implementacja Selection Sort
+      async function selectionSort(array, ctx, timerId) {
+        const startTime = performance.now();
+        let sorted = -1;
+        for (let i = 0; i < array.length && isSorting; i++) {
+          let minIndex = i;
+          for (let j = i + 1; j < array.length && isSorting; j++) {
+            drawArray(ctx, array, i, j, sorted);
+            if (j + 1 < array.length) {
+              playNote(300 + (array[j] - array[j + 1])); // Sound on comparison
+            }
+            await sleep(10);
+            if (array[j] < array[minIndex]) {
+              minIndex = j;
+            }
+          }
+          if (minIndex !== i) {
+            [array[i], array[minIndex]] = [array[minIndex], array[i]];
+          }
+          sorted = i + 1;
+          drawArray(ctx, array, -1, -1, sorted);
+          await sleep(10);
+        }
+        if (isSorting) {
+          const endTime = performance.now();
+          document.getElementById(timerId).textContent = (endTime - startTime).toFixed(2);
+          drawArray(ctx, array, -1, -1, array.length);
+          return (endTime - startTime).toFixed(2); // Return sorting time
+        }
+      }
+      async function quickSort(array, ctx, timerId, start = 0, end = array.length - 1) {
+        const startTime = performance.now();
+        // Funkcja dzielenia
+        async function partition(low, high) {
+          let pivot = array[high];
+          let i = low - 1;
+          for (let j = low; j < high && isSorting; j++) {
+            drawArray(ctx, array, j, high, -1); // Rysowanie tablicy
+            // Odtwarzanie dźwięku przy porównaniu
+            playNote(440); // Częstotliwość 440 Hz (A4), używana przy porównaniach
+            await sleep(10); // Opóźnienie, by pozwolić na odtwarzanie dźwięku
+            if (array[j] < pivot) {
+              i++;
+              [array[i], array[j]] = [array[j], array[i]];
+              // Odtwarzanie dźwięku przy zamianie
+              playNote(880); // Częstotliwość 880 Hz (A5), używana przy zamianie
+              await sleep(10); // Opóźnienie, by pozwolić na odtwarzanie dźwięku
+            }
+          }
+          [array[i + 1], array[high]] = [array[high], array[i + 1]];
+          return i + 1;
+        }
+        // Funkcja sortowania
+        async function sort(low, high) {
+          if (low < high && isSorting) {
+            const pivotIndex = await partition(low, high);
+            await sort(low, pivotIndex - 1);
+            await sort(pivotIndex + 1, high);
+          }
+        }
+        // Rozpoczęcie sortowania
+        await sort(start, end);
+        if (isSorting) {
+          const endTime = performance.now();
+          document.getElementById(timerId).textContent = (endTime - startTime).toFixed(2); // Czas sortowania
+          drawArray(ctx, array, -1, -1, array.length); // Rysowanie posortowanej tablicy
+          return (endTime - startTime).toFixed(2); // Zwracamy czas sortowania
+        }
+      }
+      // Funkcja ładowania historii użytkownika
+      function loadHistory(username) {
+        $.ajax({
+            url: `http://149.156.109.180:3339/history/${username}`,
+            method: 'GET',
+            success: function(historyEntries) {
+              let historyList = $('#historyList');
+              historyList.empty();
+              if (historyEntries.length === 0) {
+                historyList.append(' < li > Brak historii dla tego użytkownika. < /li>');
+                }
+                else {
+                  historyEntries.forEach((entry, index) => {
+                    const formattedAlgorithm = formatAlgorithmName(entry.algorithm);
+                    historyList.append(`
+                                
+					<li>
+                                    Algorytm: ${formattedAlgorithm} | Rozmiar tablicy: ${entry.arraySize} | Czas wyniku: ${entry.resultTime}ms | Data: ${new Date(entry.timestamp).toLocaleString()}
+                                    
+						<button onclick="selectHistory(${index}, ${JSON.stringify(entry)})">Załaduj te dane</button>
+					</li>
+                            `);
+                  });
+                }
+              },
+              error: function(error) {
+                // alert('Błąd podczas ładowania historii.');
+              }
+            });
+        }
+
+        function formatAlgorithmName(algorithm) {
+          return algorithm.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        }
+        // Funkcja do załadowania danych z historii
+        function selectHistory(entry) {
+          $('#algorithm').val(entry.algorithm);
+          $('#arraySize').val(entry.size);
+          startComparison();
+        }
+        // Funkcja do rozpoczęcia sortowania
+        async function startComparison() {
+          isSorting = true;
+          const selectedAlgorithm = document.getElementById('algorithm').value;
+          const username = localStorage.getItem('username');
+          let resultTime = 0;
+          if (selectedAlgorithm === 'bubble') {
+            resultTime = await bubbleSort(sortArray, sortCanvas, 'bubbleTime');
+          } else if (selectedAlgorithm === 'selection') {
+            resultTime = await selectionSort(sortArray, sortCanvas, 'selectionTime');
+          } else if (selectedAlgorithm === 'quick') {
+            resultTime = await quickSort(sortArray, sortCanvas, 'quickTime');
+          }
+          // Zapisanie historii po sortowaniu
+          if (username) {
+            try {
+              await fetch('http://149.156.109.180:3339/save-history', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  username,
+                  algorithm: selectedAlgorithm,
+                  arraySize: arraySize,
+                  resultTime: resultTime
+                })
+              });
+            } catch (error) {
+              console.error('Błąd zapisywania historii:', error);
+            }
+          }
+        }
+
+        function stopSorting() {
+          isSorting = false;
+        }
+        // Resetowanie tablicy
+        function resetArrays() {
+          isSorting = false;
+          generateRandomArray();
+        }
+        // Dynamiczna zmiana tablicy po wyborze rozmiaru
+        function updateCanvas() {
+          arraySize = parseInt(document.getElementById('arraySize').value);
+          generateRandomArray();
+        }
+        // Inicjalizacja tablicy po załadowaniu strony
+        generateRandomArray();
+
+        function logout() {
+          localStorage.removeItem('username');
+          localStorage.removeItem('authToken');
+          window.location.href = 'index.html'; // Redirect to the login page after logout
+        }
+    </script>
+  </body>
+</html>
