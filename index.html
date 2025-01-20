@@ -1,170 +1,170 @@
 <!DOCTYPE html>
 <html lang="pl">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projekt</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  </head>
-  <style>
-    .highlight-link {
-      color: #DB7093;
-      font-weight: bold;
-    }
-  </style>
-  <body>
+</head>
+<style>
+.highlight-link {
+    color: #DB7093;
+    font-weight: bold;
+}
+</style>
+
+<body>
     <nav>
-      <!-- Linki na górze strony -->
-      <a href="index.html">Strona główna</a>
-      <a href="commonpage.html" class="highlight-link">Strona dla wszystkich userow, logowanie nie jest potrzebne</a>
-    </nav>
+        <!-- Linki na górze strony --><a href="index.html">Strona główna</a> <a href="commonpage.html" class="highlight-link">Strona dla wszystkich userow, logowanie nie jest potrzebne</a> </nav>
     <h1>Wizualne Porównanie Algorytmów Sortowania w Informatyce</h1>
     <div>
-      <h2>Rejestracja</h2>
-      <input type="text" id="username" placeholder="Nazwa użytkownika">
-      <input type="password" id="password" placeholder="Hasło">
-      <button onclick="register()">Zarejestruj</button>
+        <h2>Rejestracja</h2>
+        <input type="text" id="username" placeholder="Nazwa użytkownika">
+        <input type="password" id="password" placeholder="Hasło">
+        <button onclick="register()">Zarejestruj</button>
     </div>
     <div>
-      <h2>Logowanie</h2>
-      <input type="text" id="loginUsername" placeholder="Nazwa użytkownika">
-      <input type="password" id="loginPassword" placeholder="Hasło">
-      <button onclick="login()">Zaloguj</button>
+        <h2>Logowanie</h2>
+        <input type="text" id="loginUsername" placeholder="Nazwa użytkownika">
+        <input type="password" id="loginPassword" placeholder="Hasło">
+        <button onclick="login()">Zaloguj</button>
     </div>
     <h3>Użytkownicy</h3>
     <button onclick="loadUsers()">Załaduj użytkowników</button>
     <ul id="userList"></ul>
     <div>
-      <h3>Aktualizuj użytkownika</h3>
-      <input type="text" id="updateUsername" placeholder="Nowa nazwa użytkownika">
-      <input type="password" id="updatePassword" placeholder="Nowe hasło">
-      <input type="text" id="updateUserId" placeholder="ID użytkownika">
-      <button onclick="updateUser()">Zaktualizuj</button>
+        <h3>Aktualizuj użytkownika</h3>
+        <input type="text" id="updateUsername" placeholder="Nowa nazwa użytkownika">
+        <input type="password" id="updatePassword" placeholder="Nowe hasło">
+        <input type="text" id="updateUserId" placeholder="ID użytkownika">
+        <button onclick="updateUser()">Zaktualizuj</button>
     </div>
     <div>
-      <h3>Usuń użytkownika</h3>
-      <input type="text" id="deleteUserId" placeholder="ID użytkownika">
-      <button onclick="deleteUser()">Usuń</button>
+        <h3>Usuń użytkownika</h3>
+        <input type="text" id="deleteUserId" placeholder="ID użytkownika">
+        <button onclick="deleteUser()">Usuń</button>
     </div>
     <script>
-      function register() {
+    function register() {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         $.ajax({
-          url: 'http://149.156.109.180:3339/register',
-          method: 'POST',
-          data: JSON.stringify({
-            username,
-            password
-          }),
-          contentType: 'application/json',
-          success: function(response) {
-            alert(response.message);
-          }
+            url: 'http://149.156.109.180:3339/register',
+            method: 'POST',
+            data: JSON.stringify({
+                username,
+                password
+            }),
+            contentType: 'application/json',
+            success: function(response) {
+                alert(response.message);
+            }
         });
-      }
+    }
 
-      function login() {
+    function login() {
         const username = document.getElementById('loginUsername').value;
         const password = document.getElementById('loginPassword').value;
         $.ajax({
-          url: 'http://149.156.109.180:3339/login',
-          method: 'POST',
-          data: JSON.stringify({
-            username,
-            password
-          }),
-          contentType: 'application/json',
-          success: function(response) {
-            alert(response.message);
-            // Store token and user data in localStorage
-            localStorage.setItem('authToken', response.token);
-            localStorage.setItem('username', response.username || 'Nieznany użytkownik');
-            console.log('Odpowiedź serwera:', response);
-            // Redirect to user page
-            window.location.href = 'userpage.html';
-          },
-          error: function(error) {
-            alert(error.responseJSON.message);
-          }
+            url: 'http://149.156.109.180:3339/login',
+            method: 'POST',
+            data: JSON.stringify({
+                username,
+                password
+            }),
+            contentType: 'application/json',
+            success: function(response) {
+                alert(response.message);
+                // Store token and user data in localStorage
+                localStorage.setItem('authToken', response.token);
+                localStorage.setItem('username', response.username || 'Nieznany użytkownik');
+                console.log('Odpowiedź serwera:', response);
+                // Redirect to user page
+                window.location.href = 'userpage.html';
+            },
+            error: function(error) {
+                alert(error.responseJSON.message);
+            }
         });
-      }
+    }
 
-      function loadUsers() {
+    function loadUsers() {
         $.ajax({
-          url: 'http://149.156.109.180:3339/users',
-          method: 'GET',
-          success: function(users) {
-            let userList = $('#userList');
-            userList.empty();
-            users.forEach(user => {
-              userList.append(`
-														<li>ID: ${user._id} - ${user.username}</li>`);
-            });
-          }
+            url: 'http://149.156.109.180:3339/users',
+            method: 'GET',
+            success: function(users) {
+                let userList = $('#userList');
+                userList.empty();
+                users.forEach(user => {
+                    userList.append(`
+                                                        <li>ID: ${user._id} - ${user.username}</li>`);
+                });
+            }
         });
-      }
+    }
 
-      function editUser(userId) {
+    function editUser(userId) {
         const username = prompt("Wpisz nową nazwę użytkownika");
         const password = prompt("Wpisz nowe hasło");
         $.ajax({
-          url: `http://149.156.109.180:3339/update/${userId}`,
-          method: 'PUT',
-          data: JSON.stringify({
-            username,
-            password
-          }),
-          contentType: 'application/json',
-          success: function(response) {
-            alert(response.message);
-            loadUsers();
-          }
+            url: `http://149.156.109.180:3339/update/${userId}`,
+            method: 'PUT',
+            data: JSON.stringify({
+                username,
+                password
+            }),
+            contentType: 'application/json',
+            success: function(response) {
+                alert(response.message);
+                loadUsers();
+            }
         });
-      }
+    }
 
-      function updateUser() {
+    function updateUser() {
         const username = document.getElementById('updateUsername').value;
         const password = document.getElementById('updatePassword').value;
         const userId = document.getElementById('updateUserId').value;
         $.ajax({
-          url: `http://149.156.109.180:3339/update/${userId}`,
-          method: 'PUT',
-          data: JSON.stringify({
-            username,
-            password
-          }),
-          contentType: 'application/json',
-          success: function(response) {
-            alert(response.message);
-            loadUsers();
-          }
+            url: `http://149.156.109.180:3339/update/${userId}`,
+            method: 'PUT',
+            data: JSON.stringify({
+                username,
+                password
+            }),
+            contentType: 'application/json',
+            success: function(response) {
+                alert(response.message);
+                loadUsers();
+            }
         });
-      }
+    }
 
-      function deleteUser(userId) {
-        if (userId) {
-          $.ajax({
-            url: `http://149.156.109.180:3339/delete/${userId}`,
-            method: 'DELETE',
-            success: function(response) {
-              alert(response.message);
-              loadUsers();
-            }
-          });
+    function deleteUser(userId) {
+        if(userId) {
+            $.ajax({
+                url: `http://149.156.109.180:3339/delete/${userId}`,
+                method: 'DELETE',
+                success: function(response) {
+                    alert(response.message);
+                    loadUsers();
+                }
+            });
         } else {
-          const userId = document.getElementById('deleteUserId').value;
-          $.ajax({
-            url: `http://149.156.109.180:3339/delete/${userId}`,
-            method: 'DELETE',
-            success: function(response) {
-              alert(response.message);
-              loadUsers();
-            }
-          });
+            const userId = document.getElementById('deleteUserId').value;
+            $.ajax({
+                url: `http://149.156.109.180:3339/delete/${userId}`,
+                method: 'DELETE',
+                success: function(response) {
+                    alert(response.message);
+                    loadUsers();
+                }
+            });
         }
-      }
+    }
     </script>
-  </body>
+</body>
+
 </html>

@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html lang="pl">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algorytmy Sortowania</title>
     <style>
-      body {
+    body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background-color: #F5F5F5;
         color: #333;
         margin: 0;
         padding: 20px;
-      }
-
-      h1,
-      h2 {
+    }
+    
+    h1,
+    h2 {
         text-align: center;
         color: #5A4F6D;
-      }
-
-      button {
+    }
+    
+    button {
         display: block;
         margin: auto;
         padding: 10px 20px;
@@ -30,70 +31,69 @@
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s;
-      }
-
-      button:hover {
+    }
+    
+    button:hover {
         background-color: #3E3B49;
-      }
-
-      svg {
+    }
+    
+    svg {
         display: block;
         margin: 20px auto;
         border: 1px solid #CCC;
         background-color: #fff;
-      }
-
-      .bar {
+    }
+    
+    .bar {
         fill: #6A5ACD;
-      }
-
-      .highlight {
+    }
+    
+    .highlight {
         fill: #FF6347;
-      }
-    </style>
-    <style>
-      /* Base styles */
-      body {
+    }
+    /* Base styles */
+    
+    body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         margin: 0;
         padding: 0;
         background-color: #F5F5F5;
         color: #333;
         line-height: 1.6;
-      }
-
-      h1,
-      h2,
-      h3 {
+    }
+    
+    h1,
+    h2,
+    h3 {
         text-align: center;
         color: #5A4F6D;
-      }
-
-      /* Container and layout */
-      .container {
+    }
+    /* Container and layout */
+    
+    .container {
         display: flex;
         justify-content: space-evenly;
         flex-wrap: wrap;
         margin: 30px 0;
         gap: 20px;
-      }
-
-      .canvas-container {
+    }
+    
+    .canvas-container {
         background-color: #D8BFD8;
         padding: 15px;
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         text-align: center;
         width: 280px;
-      }
-
-      canvas {
+    }
+    
+    canvas {
         border-radius: 8px;
         border: 2px solid #C0C0C0;
         margin-top: 10px;
-      }
-
-      button {
+    }
+    
+    button {
         padding: 12px 20px;
         font-size: 16px;
         background-color: #5A4F6D;
@@ -102,143 +102,147 @@
         border-radius: 8px;
         cursor: pointer;
         transition: background-color 0.3s ease;
-      }
-
-      button:hover {
+    }
+    
+    button:hover {
         background-color: #3E3B49;
-      }
-
-      /* Timer styles */
-      .timer {
+    }
+    /* Timer styles */
+    
+    .timer {
         text-align: center;
         background-color: #C0C0C0;
         padding: 15px;
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         margin-top: 20px;
-      }
-
-      /* Table styles */
-      table {
+    }
+    /* Table styles */
+    
+    table {
         width: 100%;
         margin: 20px 0;
         border-collapse: collapse;
-      }
-
-      table th,
-      table td {
+    }
+    
+    table th,
+    table td {
         padding: 12px;
         text-align: center;
         border: 1px solid #C0C0C0;
-      }
-
-      table th {
+    }
+    
+    table th {
         background-color: #D8BFD8;
-      }
-
-      /* Links and other elements */
-      a {
+    }
+    /* Links and other elements */
+    
+    a {
         color: #5A4F6D;
         text-decoration: none;
-      }
-
-      a:hover {
+    }
+    
+    a:hover {
         text-decoration: underline;
-      }
-
-      p {
+    }
+    
+    p {
         max-width: 900px;
         margin: 0 auto 20px auto;
         padding: 0 15px;
-      }
-
-      ul {
+    }
+    
+    ul {
         list-style-type: none;
         padding: 0;
-      }
-
-      ul li {
+    }
+    
+    ul li {
         margin: 8px 0;
         padding-left: 20px;
         position: relative;
-      }
-
-      ul li:before {
+    }
+    
+    ul li:before {
         content: '•';
         position: absolute;
         left: 0;
         color: #5A4F6D;
-      }
-
-      .content {
+    }
+    
+    .content {
         padding: 30px;
         background-color: white;
         border-radius: 12px;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         max-width: 1200px;
         margin: 0 auto;
-      }
-
-      .content h2 {
+    }
+    
+    .content h2 {
         font-size: 28px;
         margin-bottom: 20px;
-      }
-
-      .content p {
+    }
+    
+    .content p {
         font-size: 16px;
-      }
-
-      /* Responsive design */
-      @media (max-width: 768px) {
+    }
+    /* Responsive design */
+    
+    @media (max-width: 768px) {
         .container {
-          flex-direction: column;
-          align-items: center;
+            flex-direction: column;
+            align-items: center;
         }
-
         .canvas-container {
-          width: 100%;
-          max-width: 350px;
+            width: 100%;
+            max-width: 350px;
         }
-      }
+    }
     </style>
-  </head>
-  <body>
-    <p style="text-align: center;"> Jeśli chcesz dowiedzieć się więcej o algorytmach i przetestować bardziej zaawansowane przypadki, wróć do <a href="index.html" style="color: #DB7093; font-weight: bold;">głównej strony</a>, zarejestruj swoje konto i wejdź na swoją stronę użytkownika. </p>
-    <hr>
-    <div class="content">
-      <h1>Algorytmy Sortowania w Informatyce</h1> Poniżej przedstawiona jest interesująca wizualizacja działania algorytmu sortowania bąbelkowego (bubble sort) z wykorzystaniem technologii D3.js. <h3>Bubble Sort - Wizualizacja</h3>
-      <button id="start">Rozpocznij Sortowanie</button>
-      <svg width="600" height="300"></svg>
-      <h2>Czym Jest Sortowanie?</h2>
-      <p>Sortowanie jest fundamentalnym procesem w informatyce, mającym na celu uporządkowanie zbioru danych według określonego kryterium. Główne zastosowanie sortowania obejmuje usprawnienie późniejszego wyszukiwania danych, co w dużej mierze przyczynia się do zwiększenia efektywności systemów przetwarzania informacji. W kontekście algorytmów sortujących, kluczowe jest rozważenie zarówno ich złożoności czasowej, jak i pamięciowej, które mają bezpośredni wpływ na wydajność operacji na dużych zbiorach danych.</p>
-      <h2>Czasowa Złożoność Obliczeniowa:</h2>
-      <p>Czasowa złożoność obliczeniowa algorytmu sortującego (ang. computational complexity) to miara ilości czasu potrzebnego na wykonanie algorytmu w zależności od liczby danych wejściowych. Jest to ważne, ponieważ umożliwia ocenę wydajności algorytmu niezależnie od mocy obliczeniowej konkretnego urządzenia, na którym jest on realizowany. Złożoność czasową przedstawia się za pomocą notacji O (omikron), która charakteryzuje asymptotyczne zachowanie algorytmu przy dużych danych wejściowych.</p>
-      <p>Wyróżniamy kilka klas złożoności czasowej, w tym:</p>
-      <ul style="text-align: left;">
-        <li>
-          <strong>O(n):</strong> Algorytmy o liniowej złożoności, w których czas wykonania rośnie proporcjonalnie do liczby przetwarzanych danych.
-        </li>
-        <li>
-          <strong>O(n <sup>2</sup>): </strong> Algorytmy o kwadratowej złożoności, gdzie czas wykonania wzrasta wprost proporcjonalnie do kwadratu liczby danych wejściowych.
-        </li>
-        <li>
-          <strong>O(n log n):</strong> Algorytmy o złożoności logarytmicznej, charakteryzujące się wolniejszym wzrostem czasu wykonania w porównaniu do algorytmów o złożoności kwadratowej. Są to algorytmy często wykorzystywane w praktycznych implementacjach sortowania.
-        </li>
-        <li>
-          <strong>O(n!):</strong> Bardzo pesymistyczne algorytmy, w których czas wykonania rośnie wykładniczo, czyniąc je niewykonalnymi dla dużych zbiorów danych.
-        </li>
-      </ul>
-      <!-- <p>Warto również zaznaczyć, że złożoność czasowa algorytmu bezpośrednio wpływa na jego wydajność. Dla przykładów o wysokiej złożoności, takich jak O(n<sup>2</sup>), czas oczekiwania na wynik przy większych zbiorach danych może stać się nieakceptowalny, co sprawia, że zastosowanie bardziej wydajnych algorytmów jest kluczowe.</p><p>W poniższym filmie przedstawiono podstawy algorytmów i struktur danych w kontekście ich złożoności czasowej. Zapraszam do obejrzenia, aby lepiej zrozumieć, jak różne algorytmy wpływają na czas wykonania w zależności od rozmiaru danych.</p><div style="text-align: center;"><video width="80%" controls><source src="film.MIME" type="video/mp4">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Rejestracja/Logowanie śię</a></li>
+                <!-- <li><a href="#article">O Algorytmach</a></li>
+          <li><a href="#contact">Kontakt</a></li> -->
+            </ul>
+        </nav>
+    </header>
+    <article class="article">
+        <p style="text-align: center;"> Jeśli chcesz dowiedzieć się więcej o algorytmach i przetestować bardziej zaawansowane przypadki, wróć do <a href="index.html" style="color: #DB7093; font-weight: bold;">głównej strony</a>, zarejestruj swoje konto i wejdź na swoją stronę użytkownika. </p>
+        <hr>
+        <div class="content">
+            <h1>Algorytmy Sortowania w Informatyce</h1> Poniżej przedstawiona jest interesująca wizualizacja działania algorytmu sortowania bąbelkowego (bubble sort) z wykorzystaniem technologii D3.js.
+            <h3>Bubble Sort - Wizualizacja</h3>
+            <button id="start">Rozpocznij Sortowanie</button>
+            <svg width="600" height="300"></svg>
+            <h2 id="description">Czym Jest Sortowanie?</h2>
+            <p>Sortowanie jest fundamentalnym procesem w informatyce, mającym na celu uporządkowanie zbioru danych według określonego kryterium. Główne zastosowanie sortowania obejmuje usprawnienie późniejszego wyszukiwania danych, co w dużej mierze przyczynia się do zwiększenia efektywności systemów przetwarzania informacji. W kontekście algorytmów sortujących, kluczowe jest rozważenie zarówno ich złożoności czasowej, jak i pamięciowej, które mają bezpośredni wpływ na wydajność operacji na dużych zbiorach danych.</p>
+            <h2>Czasowa Złożoność Obliczeniowa:</h2>
+            <p>Czasowa złożoność obliczeniowa algorytmu sortującego (ang. computational complexity) to miara ilości czasu potrzebnego na wykonanie algorytmu w zależności od liczby danych wejściowych. Jest to ważne, ponieważ umożliwia ocenę wydajności algorytmu niezależnie od mocy obliczeniowej konkretnego urządzenia, na którym jest on realizowany. Złożoność czasową przedstawia się za pomocą notacji O (omikron), która charakteryzuje asymptotyczne zachowanie algorytmu przy dużych danych wejściowych.</p>
+            <p>Wyróżniamy kilka klas złożoności czasowej, w tym:</p>
+            <ul style="text-align: left;">
+                <li> <strong>O(n):</strong> Algorytmy o liniowej złożoności, w których czas wykonania rośnie proporcjonalnie do liczby przetwarzanych danych. </li>
+                <li> <strong>O(n <sup>2</sup>): </strong> Algorytmy o kwadratowej złożoności, gdzie czas wykonania wzrasta wprost proporcjonalnie do kwadratu liczby danych wejściowych. </li>
+                <li> <strong>O(n log n):</strong> Algorytmy o złożoności logarytmicznej, charakteryzujące się wolniejszym wzrostem czasu wykonania w porównaniu do algorytmów o złożoności kwadratowej. Są to algorytmy często wykorzystywane w praktycznych implementacjach sortowania. </li>
+                <li> <strong>O(n!):</strong> Bardzo pesymistyczne algorytmy, w których czas wykonania rośnie wykładniczo, czyniąc je niewykonalnymi dla dużych zbiorów danych. </li>
+            </ul>
+            <!-- <p>Warto również zaznaczyć, że złożoność czasowa algorytmu bezpośrednio wpływa na jego wydajność. Dla przykładów o wysokiej złożoności, takich jak O(n<sup>2</sup>), czas oczekiwania na wynik przy większych zbiorach danych może stać się nieakceptowalny, co sprawia, że zastosowanie bardziej wydajnych algorytmów jest kluczowe.</p><p>W poniższym filmie przedstawiono podstawy algorytmów i struktur danych w kontekście ich złożoności czasowej. Zapraszam do obejrzenia, aby lepiej zrozumieć, jak różne algorytmy wpływają na czas wykonania w zależności od rozmiaru danych.</p><div style="text-align: center;"><video width="80%" controls><source src="film.MIME" type="video/mp4">
                 Twoja przeglądarka nie wspiera tagu wideo.
             </video></div> -->
-      <!-- Krótki opis przed filmikiem -->
-      <p>W poniższym filmie przedstawiono podstawy algorytmów i struktur danych w kontekście ich złożoności czasowej...</p>
-      <!-- Osadzenie wideo z YouTube -->
-      <div style="text-align: center;">
-        <iframe width="80%" height="450" src="https://www.youtube.com/embed/oz9cEqFynHU?start=100" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <h2>Przykład:</h2>
-      <p>Załóżmy, że algorytm o złożoności O(n <sup>2</sup>) sortuje 100 elementów w 1 sekundę. Wówczas, sortowanie 1000 elementów zajmie już 100 sekund, co obrazuje wykładniczy wzrost czasu wykonania wraz ze wzrostem liczby danych. </p>
+            <!-- Krótki opis przed filmikiem -->
+            <p>W poniższym filmie przedstawiono podstawy algorytmów i struktur danych w kontekście ich złożoności czasowej...</p>
+            <!-- Osadzenie wideo z YouTube -->
+            <div style="text-align: center;">
+                <iframe width="80%" height="450" src="https://www.youtube.com/embed/oz9cEqFynHU?start=100" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <script>
+            function showExample() {
+                document.getElementById("example-container").innerHTML = `<p>Załóżmy, że algorytm o złożoności O(n <sup>2</sup>) sortuje 100 elementów w 1 sekundę. Wówczas, sortowanie 1000 elementów zajmie już 100 sekund, co obrazuje wykładniczy wzrost czasu wykonania wraz ze wzrostem liczby danych. </p>
       <table border="1">
         <tr>
           <th>Lp.</th>
@@ -277,71 +281,114 @@
         </tr>
       </table>
       <p>Przykład ten uwidacznia problem z wydajnością algorytmów o wyższej złożoności, co jest kluczowe przy obróbce dużych zbiorów danych.</p>
-      <h3>Złożoność Pamięciowa:</h3>
-      <p>Oprócz złożoności czasowej, równie istotną kwestią jest złożoność pamięciowa (ang. memory complexity). Określa ona ilość zasobów pamięciowych wymaganych przez algorytm w zależności od liczby przetwarzanych danych. Dobre algorytmy sortujące charakteryzują się niską złożonością pamięciową, co ma duże znaczenie przy dużych zbiorach danych, gdzie brak pamięci RAM może uniemożliwić przetwarzanie danych.</p>
-      <h3>Algorytmy Sortujące/Nie Sortujące w miejscu:</h3>
-      <p>Algorytmy sortujące dzielą się na dwie główne grupy:</p>
-      <ul>
-        <li>
-          <strong>Algorytmy sortujące w miejscu (in place):</strong> Algorytmy, które wymagają stałej liczby dodatkowych struktur danych, niezależnie od liczby elementów. Złożoność pamięciowa w takich algorytmach jest O(1).
-        </li>
-        <li>
-          <strong>Algorytmy nie sortujące w miejscu:</strong> Algorytmy, które wymagają dynamicznego przydzielania pamięci w zależności od liczby danych wejściowych. Zwykle są one szybsze, ale mają wyższą złożoność pamięciową.
-        </li>
-      </ul>
-      <h3>Algorytmy Stabilne i Niestabilne:</h3>
-      <p>Algorytmy sortujące dzielimy także na stabilne i niestabilne:</p>
-      <ul>
-        <li>
-          <strong>Algorytmy stabilne:</strong> Zachowują kolejność elementów równych w zbiorze, co jest istotne w przypadku sortowania danych, gdzie kolejność powtarzających się elementów ma znaczenie, np. w bazach danych.
-        </li>
-        <li>
-          <strong>Algorytmy niestabilne:</strong> Nie zachowują kolejności elementów równych, co może prowadzić do zmiany ich względnego położenia w zbiorze po posortowaniu.
-        </li>
-      </ul>
-      <p>Wybór odpowiedniego algorytmu sortującego zależy od konkretnego przypadku zastosowania, wymaganej wydajności oraz dostępnych zasobów.</p>
-      <!-- Poniżej przedstawiona jest interesująca wizualizacja działania algorytmu sortowania bąbelkowego (bubble sort) z wykorzystaniem nowej technologii D3.js.
+      `
+            }
+            </script>
+            <button onclick="showExample()">Pokaż przykład</button>
+            <div id="example-container"></div>
+            <!-- <h2>Przykład:</h2>
+      <h3>Złożoność Pamięciowa:</h3> -->
+            <p>Oprócz złożoności czasowej, równie istotną kwestią jest złożoność pamięciowa (ang. memory complexity). Określa ona ilość zasobów pamięciowych wymaganych przez algorytm w zależności od liczby przetwarzanych danych. Dobre algorytmy sortujące charakteryzują się niską złożonością pamięciową, co ma duże znaczenie przy dużych zbiorach danych, gdzie brak pamięci RAM może uniemożliwić przetwarzanie danych.</p>
+            <h3>Algorytmy Sortujące/Nie Sortujące w miejscu:</h3>
+            <p>Algorytmy sortujące dzielą się na dwie główne grupy:</p>
+            <ul>
+                <li> <strong>Algorytmy sortujące w miejscu (in place):</strong> Algorytmy, które wymagają stałej liczby dodatkowych struktur danych, niezależnie od liczby elementów. Złożoność pamięciowa w takich algorytmach jest O(1). </li>
+                <li> <strong>Algorytmy nie sortujące w miejscu:</strong> Algorytmy, które wymagają dynamicznego przydzielania pamięci w zależności od liczby danych wejściowych. Zwykle są one szybsze, ale mają wyższą złożoność pamięciową. </li>
+            </ul>
+            <h3>Algorytmy Stabilne i Niestabilne:</h3>
+            <p>Algorytmy sortujące dzielimy także na stabilne i niestabilne:</p>
+            <ul>
+                <li> <strong>Algorytmy stabilne:</strong> Zachowują kolejność elementów równych w zbiorze, co jest istotne w przypadku sortowania danych, gdzie kolejność powtarzających się elementów ma znaczenie, np. w bazach danych. </li>
+                <li> <strong>Algorytmy niestabilne:</strong> Nie zachowują kolejności elementów równych, co może prowadzić do zmiany ich względnego położenia w zbiorze po posortowaniu. </li>
+            </ul>
+            <p>Wybór odpowiedniego algorytmu sortującego zależy od konkretnego przypadku zastosowania, wymaganej wydajności oraz dostępnych zasobów.</p>
+    </article>
+    <!-- Poniżej przedstawiona jest interesująca wizualizacja działania algorytmu sortowania bąbelkowego (bubble sort) z wykorzystaniem nowej technologii D3.js.
         <h3>Bubble Sort - Wizualizacja</h3><button id="start">Rozpocznij Sortowanie</button><svg width="600" height="300"></svg> -->
-      <script src="https://d3js.org/d3.v7.min.js"></script>
-      <script>
-        // Generowanie losowych danych
-        const data = Array.from({
-          length: 20
-        }, () => Math.floor(Math.random() * 100) + 1);
-        // Ustawienia SVG
-        const svg = d3.select("svg");
-        const width = +svg.attr("width");
-        const height = +svg.attr("height");
-        const barWidth = width / data.length;
-        // Skale
-        const xScale = d3.scaleBand().domain(d3.range(data.length)).range([0, width]).padding(0.1);
-        const yScale = d3.scaleLinear().domain([0, d3.max(data)]).range([0, height]);
-        // Rysowanie początkowych słupków
-        svg.selectAll(".bar").data(data).enter().append("rect").attr("class", "bar").attr("x", (d, i) => xScale(i)).attr("y", d => height - yScale(d)).attr("width", xScale.bandwidth()).attr("height", d => yScale(d));
-        // Funkcja do aktualizacji wizualizacji
-        function update(data, indices = []) {
-          svg.selectAll(".bar").data(data).join("rect").attr("class", (d, i) => indices.includes(i) ? "bar highlight" : "bar").attr("x", (d, i) => xScale(i)).attr("y", d => height - yScale(d)).attr("width", xScale.bandwidth()).attr("height", d => yScale(d));
-        }
-        // Sortowanie bąbelkowe z wizualizacją
-        async function bubbleSort(data) {
-          for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < data.length - i - 1; j++) {
-              // Podświetlenie porównywanych elementów
-              update(data, [j, j + 1]);
-              await new Promise(resolve => setTimeout(resolve, 300));
-              if (data[j] > data[j + 1]) {
-                // Zamiana elementów
-                [data[j], data[j + 1]] = [data[j + 1], data[j]];
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+    // Generowanie losowych danych
+    const data = Array.from({
+        length: 20
+    }, () => Math.floor(Math.random() * 100) + 1);
+    // Ustawienia SVG
+    const svg = d3.select("svg");
+    const width = +svg.attr("width");
+    const height = +svg.attr("height");
+    const barWidth = width / data.length;
+    // Skale
+    const xScale = d3.scaleBand().domain(d3.range(data.length)).range([0, width]).padding(0.1);
+    const yScale = d3.scaleLinear().domain([0, d3.max(data)]).range([0, height]);
+    // Rysowanie początkowych słupków
+    svg.selectAll(".bar").data(data).enter().append("rect").attr("class", "bar").attr("x", (d, i) => xScale(i)).attr("y", d => height - yScale(d)).attr("width", xScale.bandwidth()).attr("height", d => yScale(d));
+    // Funkcja do aktualizacji wizualizacji
+    function update(data, indices = []) {
+        svg.selectAll(".bar").data(data).join("rect").attr("class", (d, i) => indices.includes(i) ? "bar highlight" : "bar").attr("x", (d, i) => xScale(i)).attr("y", d => height - yScale(d)).attr("width", xScale.bandwidth()).attr("height", d => yScale(d));
+    }
+    async function bubbleSort(data) {
+        for(let i = 0; i < data.length; i++) {
+            for(let j = 0; j < data.length - i - 1; j++) {
                 update(data, [j, j + 1]);
                 await new Promise(resolve => setTimeout(resolve, 300));
-              }
+                if(data[j] > data[j + 1]) {
+                    [data[j], data[j + 1]] = [data[j + 1], data[j]];
+                    update(data, [j, j + 1]);
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                }
             }
-          }
-          // Finalna aktualizacja
-          update(data);
         }
-        // Uruchamianie sortowania po kliknięciu przycisku
-        document.getElementById("start").addEventListener("click", () => bubbleSort(data));
-      </script>
-  </body>
+        update(data);
+    }
+    document.getElementById("start").addEventListener("click", () => bubbleSort(data));
+    </script>
+    <style>
+    .stick {
+        display: inline-block;
+        width: 20px;
+        background-color: #3498db;
+        margin: 0 2px;
+        vertical-align: bottom;
+    }
+    
+    #sticks-container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-end;
+        padding: 10px;
+        border: 1px solid #ccc;
+        width: 100%;
+        overflow-x: auto;
+    }
+    </style>
+    <h3>Mini gra z patyczkami: </h3>
+    <div id="sticks-container"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+    <script>
+    // Generowanie losowych pałeczek
+    function generateSticks() {
+        const container = document.getElementById('sticks-container');
+        const numSticks = 50
+        const heights = [];
+        for(let i = 0; i < numSticks; i++) {
+            const height = Math.floor(Math.random() * 300) + 20; // Wysokość losowana między 20 a 300 px
+            heights.push(height);
+            const stick = document.createElement('div');
+            stick.classList.add('stick');
+            stick.style.height = height + 'px';
+            container.appendChild(stick);
+        }
+    }
+    // Inicjalizacja Sortable.js
+    window.onload = function() {
+        generateSticks();
+        const container = document.getElementById('sticks-container');
+        new Sortable(container, {
+            group: 'sticks',
+            animation: 150,
+            dragClass: 'dragging',
+        });
+    };
+    </script>
+</body>
+
 </html>
