@@ -3,7 +3,7 @@
 ## Strony WWW projektu:
 
 ### Strona 1
-![![01](https://github.com/user-attachments/assets/2ff3bef9-601d-4bba-84e4-b7b3530544ab)
+![01](https://github.com/user-attachments/assets/2ff3bef9-601d-4bba-84e4-b7b3530544ab)
 ![03](https://github.com/user-attachments/assets/ff2965df-9931-4967-96ae-b8b83c4ebe08)
 
 
